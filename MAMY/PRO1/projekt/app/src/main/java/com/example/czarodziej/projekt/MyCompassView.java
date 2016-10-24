@@ -30,8 +30,8 @@ public class MyCompassView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
-        Intent openThree = new Intent(this.getContext(),MakePhotoActivity.class);
-        this.getContext().startActivity(openThree);
+        Intent open = new Intent(this.getContext(), MainActivity.class);
+        this.getContext().startActivity(open);
         return false;
     }
 
