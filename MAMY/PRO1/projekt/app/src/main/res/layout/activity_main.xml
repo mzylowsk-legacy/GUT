@@ -34,6 +34,13 @@ tools:context=".SensorMakerActivity" >
         android:text="Ustaw współrzędne"
         android:layout_marginBottom="10dp"/>
 
+    <Button
+        android:id="@+id/btnSetFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Podgląd z filtrem"
+        android:layout_marginBottom="10dp"/>
+
 </LinearLayout>
 
 <LinearLayout

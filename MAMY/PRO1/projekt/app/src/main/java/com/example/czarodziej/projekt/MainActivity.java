@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
     private Uri fileUri;
 
     private ImageView imgPreview;
-    private Button btnCapturePicture, btnSetAzimuth, btnSetCoords;
+    private Button btnCapturePicture, btnSetAzimuth, btnSetCoords, btnSetFilter;
     private TextView azimuthValue, lonValue, latValue;
 
     @Override
@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
         azimuthValue = (TextView) findViewById(R.id.azimuth);
         lonValue = (TextView) findViewById(R.id.lon);
         latValue = (TextView) findViewById(R.id.lat);
+        btnSetFilter = (Button) findViewById(R.id.btnSetFilter);
 
         btnCapturePicture.setOnClickListener(new View.OnClickListener() {
 
@@ -53,18 +54,22 @@ public class MainActivity extends Activity {
                 captureImage();
             }
         });
-
         btnSetAzimuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setAzimuth();
             }
         });
-
         btnSetCoords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setCoords();
+            }
+        });
+        btnSetFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilter();
             }
         });
 
@@ -74,6 +79,11 @@ public class MainActivity extends Activity {
                     Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    private void showFilter() {
+        Intent intent = new Intent(this, opencv_Activity.class);
+        startActivity(intent);
     }
 
     private void setCoords() {

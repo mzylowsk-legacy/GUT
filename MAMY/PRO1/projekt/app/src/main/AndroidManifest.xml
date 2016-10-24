@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SensorMakerActivity"></activity>
         <activity android:name=".GPS_Location_Activity"></activity>
+        <activity android:name=".opencv_Activity"></activity>
         <activity
             android:name=".MyCompassView"
             android:label="@string/title_activity_my_compass_view"
@@ -23,7 +24,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
