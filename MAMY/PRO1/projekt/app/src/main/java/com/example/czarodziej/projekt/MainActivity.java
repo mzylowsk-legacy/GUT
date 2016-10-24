@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
     private Uri fileUri;
 
     private ImageView imgPreview;
-    private Button btnCapturePicture, btnSetAzimuth;
-    private TextView azimuthValue;
+    private Button btnCapturePicture, btnSetAzimuth, btnSetCoords;
+    private TextView azimuthValue, lonValue, latValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,10 @@ public class MainActivity extends Activity {
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
         btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
         btnSetAzimuth = (Button) findViewById(R.id.btnSetAzimuth);
+        btnSetCoords = (Button) findViewById(R.id.btnSetCoords);
         azimuthValue = (TextView) findViewById(R.id.azimuth);
+        lonValue = (TextView) findViewById(R.id.lon);
+        latValue = (TextView) findViewById(R.id.lat);
 
         btnCapturePicture.setOnClickListener(new View.OnClickListener() {
 
@@ -50,11 +53,18 @@ public class MainActivity extends Activity {
                 captureImage();
             }
         });
-        btnSetAzimuth.setOnClickListener(new View.OnClickListener() {
 
+        btnSetAzimuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setAzimuth();
+            }
+        });
+
+        btnSetCoords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setCoords();
             }
         });
 
@@ -64,6 +74,11 @@ public class MainActivity extends Activity {
                     Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    private void setCoords() {
+        Intent intent = new Intent(this, GPS_Location_Activity.class);
+        startActivityForResult(intent, 56);
     }
 
     private void setAzimuth() {
@@ -100,7 +115,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
@@ -121,6 +135,11 @@ public class MainActivity extends Activity {
         }
         if (requestCode == 23 && resultCode == RESULT_OK && data != null) {
             this.azimuthValue.setText(data.getStringExtra("AZYMUT"));
+        }
+
+        if (requestCode == 56 && resultCode == RESULT_OK && data != null) {
+            this.lonValue.setText(data.getStringExtra("LONG"));
+            this.latValue.setText(data.getStringExtra("LAT"));
         }
     }
 

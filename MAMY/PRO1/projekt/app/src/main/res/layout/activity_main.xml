@@ -72,6 +72,38 @@ tools:context=".SensorMakerActivity" >
         android:textSize="15dp"
         android:id="@+id/azimuth" />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Lat:"
+        android:padding="10dp"
+        android:textSize="15dp"
+        android:id="@+id/lat_description" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:padding="10dp"
+        android:textSize="15dp"
+        android:id="@+id/lat" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Lon:"
+        android:padding="10dp"
+        android:textSize="15dp"
+        android:id="@+id/Lon_description" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:padding="10dp"
+        android:textSize="15dp"
+        android:id="@+id/lon" />
+
 </LinearLayout>
 
 </LinearLayout>
