@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -29,7 +30,8 @@ public class MainActivity extends Activity {
     private Uri fileUri;
 
     private ImageView imgPreview;
-    private Button btnCapturePicture;
+    private Button btnCapturePicture, btnSetAzimuth;
+    private TextView azimuthValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,21 @@ public class MainActivity extends Activity {
 
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
         btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
+        btnSetAzimuth = (Button) findViewById(R.id.btnSetAzimuth);
+        azimuthValue = (TextView) findViewById(R.id.azimuth);
 
         btnCapturePicture.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 captureImage();
+            }
+        });
+        btnSetAzimuth.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                setAzimuth();
             }
         });
 
@@ -53,6 +64,11 @@ public class MainActivity extends Activity {
                     Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    private void setAzimuth() {
+        Intent intent = new Intent(this, SensorMakerActivity.class);
+        startActivityForResult(intent, 23);
     }
 
     private boolean isDeviceSupportCamera() {
@@ -102,6 +118,9 @@ public class MainActivity extends Activity {
                         "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
                         .show();
             }
+        }
+        if (requestCode == 23 && resultCode == RESULT_OK && data != null) {
+            this.azimuthValue.setText(data.getStringExtra("AZYMUT"));
         }
     }
 

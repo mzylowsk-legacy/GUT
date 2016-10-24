@@ -2,11 +2,16 @@ package com.example.czarodziej.projekt;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class SensorMakerActivity extends Activity {
 
@@ -38,6 +43,12 @@ public class SensorMakerActivity extends Activity {
         public void onSensorChanged(SensorEvent event) {
             float azimuth = event.values[0];
             compassView.updateData(azimuth);
+            if(compassView.tapped) {
+                Intent output = new Intent();
+                output.putExtra("AZYMUT", Float.toString(compassView.position));
+                setResult(RESULT_OK, output);
+                finish();
+            }
         }
     };
 
@@ -48,5 +59,4 @@ public class SensorMakerActivity extends Activity {
             sensorService.unregisterListener(mySensorEventListener);
         }
     }
-
 }

@@ -20,6 +20,20 @@ tools:context=".SensorMakerActivity" >
         android:text="Zrób zdjęcie"
         android:layout_marginBottom="10dp"/>
 
+    <Button
+        android:id="@+id/btnSetAzimuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ustaw azymut"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btnSetCoords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ustaw współrzędne"
+        android:layout_marginBottom="10dp"/>
+
 </LinearLayout>
 
 <LinearLayout
@@ -41,6 +55,22 @@ tools:context=".SensorMakerActivity" >
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Azymut:"
+        android:padding="10dp"
+        android:textSize="15dp"
+        android:id="@+id/azimuth_description" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:padding="10dp"
+        android:textSize="15dp"
+        android:id="@+id/azimuth" />
 
 </LinearLayout>
 

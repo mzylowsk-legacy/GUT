@@ -7,11 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 
 public class MyCompassView extends View {
 
     private Paint paint;
-    private float position = 0;
+    public float position = 0;
+    public boolean tapped = false;
 
     public MyCompassView(Context context) {
         super(context);
@@ -30,8 +32,7 @@ public class MyCompassView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
-        Intent open = new Intent(this.getContext(), MainActivity.class);
-        this.getContext().startActivity(open);
+        tapped = true;
         return false;
     }
 
