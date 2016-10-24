@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/projekt.iml" filepath="$PROJECT_DIR$/projekt.iml" />
+      <module fileurl="file://$USER_HOME$/Repos/GUT/MAMY/PRO1/projekt/app/app.iml" filepath="$USER_HOME$/Repos/GUT/MAMY/PRO1/projekt/app/app.iml" />
+      <module fileurl="file://$USER_HOME$/Repos/GUT/MAMY/PRO1/projekt/openCVLibrary310/openCVLibrary310.iml" filepath="$USER_HOME$/Repos/GUT/MAMY/PRO1/projekt/openCVLibrary310/openCVLibrary310.iml" />
+      <module fileurl="file://$USER_HOME$/Repos/GUT/MAMY/PRO1/projekt/projekt.iml" filepath="$USER_HOME$/Repos/GUT/MAMY/PRO1/projekt/projekt.iml" />
     </modules>
   </component>
 </project>
