@@ -1,10 +1,5 @@
 package com.example.czarodziej.projekt;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends Activity {
 
     private static final int CAMERA_CAPTURE_IMAGE = 100;
@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
     private Uri fileUri;
 
     private ImageView imgPreview;
-    private Button btnCapturePicture, btnSetAzimuth, btnSetCoords, btnSetFilter;
+    private Button btnCapturePicture, btnSetAzimuth, btnSetCoords, btnSetFilter, letsSendButton;
     private TextView azimuthValue, lonValue, latValue;
 
     @Override
@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
         btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
         btnSetAzimuth = (Button) findViewById(R.id.btnSetAzimuth);
         btnSetCoords = (Button) findViewById(R.id.btnSetCoords);
+        letsSendButton = (Button) findViewById(R.id.btnSend);
         azimuthValue = (TextView) findViewById(R.id.azimuth);
         lonValue = (TextView) findViewById(R.id.lon);
         latValue = (TextView) findViewById(R.id.lat);
@@ -72,13 +73,25 @@ public class MainActivity extends Activity {
                 showFilter();
             }
         });
-
+        letsSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendFile();
+            }
+        });
+        
         if (!isDeviceSupportCamera()) {
             Toast.makeText(getApplicationContext(),
                     "Sorry! Your device doesn't support camera",
                     Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    private void sendFile() {
+        MyTaskParams params = new MyTaskParams(fileUri, this, (String) this.azimuthValue.getText(),
+                this.latValue.getText() + "_" + this.lonValue.getText());
+        new Sending(params).execute();
     }
 
     private void showFilter() {
