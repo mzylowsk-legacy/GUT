@@ -24,8 +24,8 @@ public class Sending extends AsyncTask<Void, Void, Void> {
         try
         {
             con = new FTPClient();
-            con.connect(""); //secret
-            if (con.login("", "")) //secret
+            con.connect("138.68.108.101");
+            if (con.login("root", "android"))
             {
                 con.enterLocalPassiveMode(); // important!
                 con.setFileType(FTP.BINARY_FILE_TYPE);
