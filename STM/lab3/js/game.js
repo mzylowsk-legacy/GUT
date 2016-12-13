@@ -10,29 +10,42 @@ kamyk.monsterShooter.MonsterShooter= kamyk.Game.$extend({
         this.background = new kamyk.Sprite(0, 0);
         this.hp = 100;
         this.player = new kamyk.Sprite(150, 150);
-        this.monster = new kamyk.AnimatedSprite(40, 40, 9, 4);
+        var playerPos = { x: 200, y: 200 };
         
-        var leftBottom = { x: 25, y: 375 };
-        var rightBottom = { x: 375, y: 375 };
-        var rightTop = { x: 375, y: 25 };
-        var leftTop = { x: 25, y: 25 };
+        this.monster0 = new kamyk.AnimatedSprite(0, 200, 9, 4);
+        this.monster1 = new kamyk.AnimatedSprite(200, 0, 9, 4);
+        this.monster2 = new kamyk.AnimatedSprite(400, 200, 9, 4);
+        this.monster3 = new kamyk.AnimatedSprite(200, 400, 9, 4);
         
-        this.monster.speed = 0.05;
-        this.monster.destinationList.unshift(rightTop);
-        this.monster.destinationList.unshift(rightBottom);
-        this.monster.destinationList.unshift(leftBottom);
-        this.monster.destinationList.unshift(leftTop);
-        
-        this.monster.isMoving = true;
+        this.monster0.speed = 0.05;
+        this.monster1.speed = 0.05;
+        this.monster2.speed = 0.05;
+        this.monster3.speed = 0.05;
+        this.monster0.destinationList.unshift(playerPos);
+        this.monster1.destinationList.unshift(playerPos);
+        this.monster2.destinationList.unshift(playerPos);
+        this.monster3.destinationList.unshift(playerPos);
+        this.monster0.isMoving = true;
+        this.monster1.isMoving = true;
+        this.monster2.isMoving = true;
+        this.monster3.isMoving = true;
 
         this.sprites.push(this.background);
-        this.sprites.push(this.monster);
+        this.sprites.push(this.monster0);
+        this.sprites.push(this.monster1);
+        this.sprites.push(this.monster2);
+        this.sprites.push(this.monster3);
         this.sprites.push(this.player);
+       
+        
     },
     
     initResources:function(){
         this.backgroundImgIndex = this.imageLoader.addURL("img/background.jpg", this.background);
-        this.monsterImgIndex = this.imageLoader.addURL("img/hero.png", this.monster);
+        this.monsterImgIndex = this.imageLoader.addURL("img/hero.png", this.monster0);
+        this.monsterImgIndex = this.imageLoader.addURL("img/hero.png", this.monster1);
+        this.monsterImgIndex = this.imageLoader.addURL("img/hero.png", this.monster2);
+        this.monsterImgIndex = this.imageLoader.addURL("img/hero.png", this.monster3);
         this.playerImgIndex = this.imageLoader.addURL("img/player.png", this.player);
         this.imageLoader.startLoading();
     },
@@ -42,12 +55,15 @@ kamyk.monsterShooter.MonsterShooter= kamyk.Game.$extend({
             this.sprites[i].render(this.context);
         }
         this.context.font="14px Georgia";
-		this.context.fillText("HP: "+ this.hp ,5,15);
-    },    
+		this.context.fillText("HP: "+ this.hp, 5, 15);
+    },
 
     update: function (dt) {
-        this.monster.update(dt);
-    }
+		this.monster0.update(dt);
+		this.monster1.update(dt);
+		this.monster2.update(dt);
+		this.monster3.update(dt);
+	}
 });
 
 
