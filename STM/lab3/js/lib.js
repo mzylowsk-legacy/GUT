@@ -100,7 +100,11 @@ kamyk.Game = Class.$extend({
         this.width = width;
         this.time = undefined;
     },
-
+    
+    getContext: function() {
+		return this.context;
+	},
+    
     initResources: function () {
         throw kamyk.AbstractException;
     },

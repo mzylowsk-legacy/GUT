@@ -8,45 +8,45 @@ kamyk.monsterShooter.MonsterShooter= kamyk.Game.$extend({
         this.dir = 1;
         this.counter = 0;
         this.background = new kamyk.Sprite(0, 0);
-        this.hero = new kamyk.AnimatedSprite(40, 40, 9, 4);
-
-        this.randomSprite = new kamyk.AnimatedSprite(100, 100, 9, 4);
-
+        this.hp = 100;
+        this.player = new kamyk.Sprite(150, 150);
+        this.monster = new kamyk.AnimatedSprite(40, 40, 9, 4);
+        
         var leftBottom = { x: 25, y: 375 };
         var rightBottom = { x: 375, y: 375 };
         var rightTop = { x: 375, y: 25 };
         var leftTop = { x: 25, y: 25 };
         
-        this.hero.speed = 0.1;
-        this.hero.destinationList.unshift(rightTop);
-        this.hero.destinationList.unshift(rightBottom);
-        this.hero.destinationList.unshift(leftBottom);
-        this.hero.destinationList.unshift(leftTop);
+        this.monster.speed = 0.05;
+        this.monster.destinationList.unshift(rightTop);
+        this.monster.destinationList.unshift(rightBottom);
+        this.monster.destinationList.unshift(leftBottom);
+        this.monster.destinationList.unshift(leftTop);
         
-        this.hero.isMoving = true;
+        this.monster.isMoving = true;
 
         this.sprites.push(this.background);
-        this.sprites.push(this.hero);
-        this.sprites.push(this.randomSprite);
+        this.sprites.push(this.monster);
+        this.sprites.push(this.player);
     },
     
     initResources:function(){
         this.backgroundImgIndex = this.imageLoader.addURL("img/background.jpg", this.background);
-        this.characterImgIndex = this.imageLoader.addURL("img/hero.png", this.hero);
-        this.randomIndex = this.imageLoader.addURL("img/hero.png", this.randomSprite);
+        this.monsterImgIndex = this.imageLoader.addURL("img/hero.png", this.monster);
+        this.playerImgIndex = this.imageLoader.addURL("img/player.png", this.player);
         this.imageLoader.startLoading();
-
     },
     
     render: function () {
         for (var i = 0; i < this.sprites.length; ++i) {
             this.sprites[i].render(this.context);
         }
+        this.context.font="14px Georgia";
+		this.context.fillText("HP: "+ this.hp ,5,15);
     },    
 
     update: function (dt) {
-        this.hero.update(dt);
-        this.randomSprite.update(dt);
+        this.monster.update(dt);
     }
 });
 
