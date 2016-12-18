@@ -109,7 +109,7 @@ kamyk.Game = Class.$extend({
         throw kamyk.AbstractException;
     },
 
-    update: function (dt) {
+    update: function (dt, false) {
         throw kamyk.AbstractException;
     },
 
@@ -128,7 +128,7 @@ kamyk.Game = Class.$extend({
         requestAnimationFrame(this.draw);
         // start main loop
     },
-
+	
     stop: function () {
     },
 
@@ -139,7 +139,7 @@ kamyk.Game = Class.$extend({
             dt = now - (gra.time || now);
 
             gra.time = now;
-            gra.update(dt);
+            gra.update(dt, false);
             gra.render();
         }
     }
