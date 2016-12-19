@@ -3,8 +3,10 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
     __init__: function (canvasID, width, height) {
         self = this;
         self.$super(canvasID, width, height);
-        self.context.fillStyle = "black";
-        self.context.font = "bold 16px Arial";
+        self.context.fillStyle = "white";
+        self.context.font = "bold 16px Times";
+
+        self.fps = 0;
 
         self.collisionDetector = new kamyk.CollisionDetector();
         self.inputManager = new kamyk.InputManager(self);
@@ -34,8 +36,9 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
     },    
     render: function() {
         self.context.drawImage(self.imageLoader.getImage(self.backgroundImgIndex), 0, 0, self.width, self.height);
+        self.context.fillText("FPS: " + self.fps, 10, 50);
         if (self.hero.HP > 0) {
-            self.context.fillText("HP: " + self.hero.HP, self.width - 70, 20);
+            self.context.fillText("HP: " + self.hero.HP, 10, 20);
             self.hero.render(self.context);
             for (var i = 0; i < self.monsters.length; i++) {
                 self.monsters[i].render(self.context);
@@ -50,6 +53,7 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
     update: function (dt) {
         self.hero.update(dt);
         self.spawnMonsterIfNeeded(dt);
+        self.fps = dt;
         for (var i = 0; i < self.monsters.length; i++) {
             if (self.collisionDetector.collide(self.hero, self.monsters[i])) {
                 self.monsters[i].stopMoving();
