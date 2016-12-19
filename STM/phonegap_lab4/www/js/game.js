@@ -23,7 +23,7 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
         self.monsters = [];
 		self.shootingAngle = 0;
         self.fireballs = [];
-        self.hero = new kamyk.Player(width / 2 - 40, height / 2 - 90, 100);
+        self.hero = new kamyk.Player(width / 2, height / 2, 100);
     },    
     initResources: function() {
         self.backgroundImgIndex = self.imageLoader.addURL("img/background.jpg", undefined);
@@ -131,7 +131,7 @@ kamyk.InputManager = Class.$extend({
 
 var gra = undefined;
 kamyk.monsterShooter.onDeviceReady = function () {
-    gra = new kamyk.monsterShooter.MonsterShooter("kanwa", 500, 800);
+    gra = new kamyk.monsterShooter.MonsterShooter("kanwa", window.innerWidth, window.innerHeight);
     gra.start();
 };
 kamyk.monsterShooter.letsGo=function(){

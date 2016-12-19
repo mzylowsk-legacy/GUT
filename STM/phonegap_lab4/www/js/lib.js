@@ -1,4 +1,4 @@
-//polyfill by Erik Möller
+//polyfill by Erik Mï¿½ller
 //http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating//http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 (function () {
     var lastTime = 0;
@@ -18,7 +18,7 @@
     if (!window.cancelAnimationFrame) window.cancelAnimationFrame = function (id) { clearTimeout(id); };
 }());
 
-/** * Klasa obs³uguj¹ca ³adowanie obrazków. */
+/** * Klasa obsï¿½ugujï¿½ca ï¿½adowanie obrazkï¿½w. */
 var kamyk = {};
 kamyk.ImageLoader = Class.$extend({
     /**"Konstruktor"*/
@@ -53,7 +53,7 @@ kamyk.ImageLoader = Class.$extend({
         var isReady = (this.numLoaded === this.URLs.length);
         if (isReady === true) { this.__finishedLoading(); }
     },
-    /**     * Wywo³ywane po za³adowaniu wszystkich obrazków.     */
+    /**     * Wywoï¿½ywane po zaï¿½adowaniu wszystkich obrazkï¿½w.     */
     __finishedLoading: function () {
         for (var i = 0; i < this.URLs.length; i++) {
             if (this.imageReceivers[i] !== undefined) {
@@ -70,11 +70,14 @@ kamyk.Game = Class.$extend({
     __init__: function (canvasId, width, height) {
         this.kanwa = document.getElementById(canvasId);
         this.context = this.kanwa.getContext("2d");
+        this.kanwa.width = width;
+        this.kanwa.height = height;
         this.kanwa.getAttribute("tabIndex", "0");
         this.kanwa.focus();
         this.imageLoader = new kamyk.ImageLoader(this);
         this.width = width;
         this.height = height;
+
         this.time = 0;
     },
     initResources: function () {
