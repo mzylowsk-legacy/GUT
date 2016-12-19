@@ -10,15 +10,16 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
 
         self.collisionDetector = new kamyk.CollisionDetector();
         self.inputManager = new kamyk.InputManager(self);
+        self.offScreenCanvas = new kamyk.OffScreenCanvas(self);
 
         // monsters settings
-        self.maxMonsters = 5;
-        self.monsterSpawnInterval = 3 * 1000;
+        self.maxMonsters = 25;
+        self.monsterSpawnInterval = 3000;
         self.monsterPositions = [
-            [0, 0],
-            [self.width, 0],
-            [self.width, self.height],
-            [0, self.height]
+            [self.width/2, self.height, 0],
+            [self.width/2, 0, 2],
+            [0, self.height/2, 3],
+            [self.width, self.height/2, 1]
         ];
 
         self.timeAfterLastSpawn = 0;
@@ -26,16 +27,22 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
 		self.shootingAngle = 0;
         self.fireballs = [];
         self.hero = new kamyk.Player(width / 2, height / 2, 100);
-    },    
+        self.background = new kamyk.Sprite(0, 0);
+    },
+    onLoaderReady: function(imageLoader) {
+        self.$super(imageLoader);
+        self.offScreenCanvas.addRenderable(self.background);
+        self.offScreenCanvas.renderYourself();
+    },
     initResources: function() {
-        self.backgroundImgIndex = self.imageLoader.addURL("img/background.jpg", undefined);
+        self.backgroundImgIndex = self.imageLoader.addURL("img/background.jpg", self.background);
         self.monsterImage = self.imageLoader.addURL("img/hero.png", undefined);
         self.fireballImage = self.imageLoader.addURL("img/fireball.png", undefined);
         self.imageLoader.addURL("img/player.png", self.hero);
         self.imageLoader.startLoading();
-    },    
+    },
     render: function() {
-        self.context.drawImage(self.imageLoader.getImage(self.backgroundImgIndex), 0, 0, self.width, self.height);
+        self.offScreenCanvas.renderToMainCanvas();
         self.context.fillText("FPS: " + self.fps, 10, 50);
         if (self.hero.HP > 0) {
             self.context.fillText("HP: " + self.hero.HP, 10, 20);
@@ -53,7 +60,7 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
     update: function (dt) {
         self.hero.update(dt);
         self.spawnMonsterIfNeeded(dt);
-        self.fps = dt;
+        self.fps = 1000 / dt;
         for (var i = 0; i < self.monsters.length; i++) {
             if (self.collisionDetector.collide(self.hero, self.monsters[i])) {
                 self.monsters[i].stopMoving();
@@ -87,9 +94,9 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
         if (self.timeAfterLastSpawn > self.monsterSpawnInterval && self.monsters.length < self.maxMonsters) {
             self.timeAfterLastSpawn = 0;
             var monsterPosIndex = Math.floor(Math.random() * self.monsterPositions.length);
-            self.monsters.push(new kamyk.Monster(self.monsterPositions[monsterPosIndex][0],
+            self.monsters.push(new kamyk.Actor(self.monsterPositions[monsterPosIndex][0],
                 self.monsterPositions[monsterPosIndex][1],
-                self.imageLoader.getImage(self.monsterImage)));
+                self.imageLoader.getImage(self.monsterImage), self.monsterPositions[monsterPosIndex][2]));
         }
     },
     moveHeroAround: function() {
@@ -116,7 +123,7 @@ kamyk.InputManager = Class.$extend({
     __init__: function (game) {
         game.kanwa.addEventListener("touchstart", function (evt) {
 			game.shootFireball();
-        }, true)
+        }, true);
 		
 		var options = {frequency:1000};
 		var onError = function(compassError){

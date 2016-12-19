@@ -1,4 +1,4 @@
-//polyfill by Erik M�ller
+//polyfill by Erik Moller
 //http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating//http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 (function () {
     var lastTime = 0;
@@ -18,7 +18,6 @@
     if (!window.cancelAnimationFrame) window.cancelAnimationFrame = function (id) { clearTimeout(id); };
 }());
 
-/** * Klasa obs�uguj�ca �adowanie obrazk�w. */
 var kamyk = {};
 kamyk.ImageLoader = Class.$extend({
     /**"Konstruktor"*/
@@ -53,7 +52,6 @@ kamyk.ImageLoader = Class.$extend({
         var isReady = (this.numLoaded === this.URLs.length);
         if (isReady === true) { this.__finishedLoading(); }
     },
-    /**     * Wywo�ywane po za�adowaniu wszystkich obrazk�w.     */
     __finishedLoading: function () {
         for (var i = 0; i < this.URLs.length; i++) {
             if (this.imageReceivers[i] !== undefined) {
@@ -132,9 +130,9 @@ kamyk.Sprite = Class.$extend({
         this.midX = this.x + this.midXOffset;
         this.midY = this.y + this.midYOffset;
     },
-    /**Rysowanie*/    
+    /**Rysowanie*/
     render: function(ctx){
-        if(this.image!== undefined) {   
+        if(this.image!== undefined) {
             ctx.drawImage(this.image, Math.floor(this.x), Math.floor(this.y),this.sizeX,this.sizeY);
         }
     },
@@ -169,7 +167,7 @@ kamyk.Sprite = Class.$extend({
         }
     },
     moveTo: function (xTarg, yTarg) {
-        this.xTarget = xTarg,
+        this.xTarget = xTarg;
         this.yTarget = yTarg;
         this.isMoving = true;
     },
@@ -179,20 +177,26 @@ kamyk.Sprite = Class.$extend({
 });
 
 kamyk.AnimatedSprite= kamyk.Sprite.$extend({
-    __init__:function(x, y, numCol, numRow){
+    __init__:function(x, y, numCol, numRow, privilegedFrame){
         this.$super(x, y);
         this.cols= numCol;
         this.rows= numRow;
         this.__frameChangeDt = 100;
         this.__curFrameTime = 0;
-        this.__curFrameInd = 0;      
+        this.__curFrameInd = 0;
         this.frames = [0];
         this.loopAnim = true;
-        this.stopAnim = false;
+        this.privilegedFrame = privilegedFrame;
 
         var frameNumbers = [];
-        for (var i = 0; i < (numRow * numCol) ; i++) {
-            frameNumbers.push(i);
+        if (this.privilegedFrame === -1){
+            for (var i = 0; i < numRow * numCol ; i++) {
+                frameNumbers.push(i);
+            }
+        } else {
+            for (var i = 0; i < numRow ; i++) {
+                frameNumbers.push(this.privilegedFrame * numCol + i);
+            }
         }
         this.setAnimationFramesSeq(frameNumbers);
     },
@@ -203,7 +207,7 @@ kamyk.AnimatedSprite= kamyk.Sprite.$extend({
         this.midXOffset=this.sizeX/2;
         this.midYOffset=this.sizeY/2;
         this.__middleCoordsInit();
-    }, 
+    },
     setAnimationFramesSeq:function(frameNumbers){
         this.frames = frameNumbers;
         this.__curFrameTime = 0;
@@ -213,7 +217,7 @@ kamyk.AnimatedSprite= kamyk.Sprite.$extend({
     render:function(ctx){
         if(this.image!== undefined){
             var xFrame = (this.curFrame%this.cols)*this.sizeX;
-            var yFrame = Math.floor(this.curFrame/this.cols)*this.sizeY;            
+            var yFrame = Math.floor(this.curFrame/this.cols)*this.sizeY;
             ctx.drawImage(this.image, xFrame, yFrame,this.sizeX,this.sizeY,Math.floor(this.x), Math.floor(this.y),this.sizeX,this.sizeY);
         }
     },
@@ -243,9 +247,9 @@ kamyk.Player = kamyk.Sprite.$extend({
     }
 });
 
-kamyk.Monster = kamyk.AnimatedSprite.$extend({
-    __init__: function (x, y, image) {
-        this.$super(x, y, 9, 4);
+kamyk.Actor = kamyk.AnimatedSprite.$extend({
+    __init__: function (x, y, image, frames_line) {
+        this.$super(x, y, 9, 4, frames_line);
         this.attackInterval = 500;
         this.attackPower = 1;
         this.timeAfterLastAttack = 0;
@@ -273,7 +277,7 @@ kamyk.Monster = kamyk.AnimatedSprite.$extend({
 
 kamyk.Fireball = kamyk.AnimatedSprite.$extend({
     __init__: function(x, y, image, angle) {
-        this.$super(x, y, 3, 4);
+        this.$super(x, y, 3, 4, -1);
         this.angle = angle;
         this.speed = 1;
         this.setImage(image);
@@ -294,5 +298,27 @@ kamyk.CollisionDetector=Class.$extend({
     },
     _intersectsRectRect:function(a, b){
         return (a.x <= b.x + b.sizeX && b.x <= a.x + a.sizeX && a.y <= b.y + b.sizeY && b.y <= a.y + a.sizeY);
+    }
+});
+
+kamyk.OffScreenCanvas=Class.$extend({
+    __init__ :function(game){
+        this.__renderables =[];
+        this.__offScreenCanvas = document.createElement("canvas");
+        this.__offScreenCanvas.width= game.width;
+        this.__offScreenCanvas.height= game.height;
+        this.__ctx =this.__offScreenCanvas.getContext("2d");
+        this.__mainCanvasContext = game.context;
+    },
+    addRenderable :function(r){
+        this.__renderables.push(r);
+    },
+    renderToMainCanvas :function(){
+        this.__mainCanvasContext.drawImage(this.__offScreenCanvas,0,0);
+    },
+    renderYourself :function(){
+        for(var i =0; i <this.__renderables.length; i++){
+            this.__renderables[i].render(this.__ctx);
+        }
     }
 });
