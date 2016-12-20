@@ -144,27 +144,31 @@ kamyk.Sprite = Class.$extend({
                 this.x += distance;
                 if (this.x > this.xTarget)
                     this.x = this.xTarget;
+                return 3;
             }
             else if (this.x > this.xTarget) {
                 this.x -= distance;
                 if (this.x < this.xTarget)
                     this.x = this.xTarget;
+                return 1;
             }
-
             if (this.y < this.yTarget) {
                 this.y += distance;
                 if (this.y > this.yTarget)
                     this.y = this.yTarget;
+                return 2;
             }
             else if (this.y > this.yTarget) {
                 this.y -= distance;
                 if (this.y < this.yTarget)
                     this.y = this.yTarget;
+                return 0;
             }
 
             if (this.x == this.xTarget && this.y == this.yTarget)
                 this.isMoving = false;
         }
+        return -1;
     },
     moveTo: function (xTarg, yTarg) {
         this.xTarget = xTarg;
@@ -200,6 +204,16 @@ kamyk.AnimatedSprite= kamyk.Sprite.$extend({
         }
         this.setAnimationFramesSeq(frameNumbers);
     },
+    updateAnimationFrames: function(privilegedFrame){
+        if (privilegedFrame != this.privilegedFrame && privilegedFrame != -1) {
+            this.privilegedFrame = privilegedFrame;
+            var frameNumbers = [];
+            for (var i = 0; i < this.rows ; i++) {
+                frameNumbers.push(this.privilegedFrame * this.cols + i);
+            }
+            this.setAnimationFramesSeq(frameNumbers);
+        }
+    },
     setImage:function(img){
         this.image= img;
         this.sizeX= Math.floor(this.image.width/this.cols);
@@ -222,7 +236,7 @@ kamyk.AnimatedSprite= kamyk.Sprite.$extend({
         }
     },
     update: function (dt) {
-        this.$super(dt);
+        this.updateAnimationFrames(this.$super(dt));
         this.__curFrameTime += dt;
         if (this.__curFrameTime > this.__frameChangeDt) {
             this.__curFrameTime = 0;
@@ -284,8 +298,8 @@ kamyk.Fireball = kamyk.AnimatedSprite.$extend({
     },
     update: function (dt) {
         this.$super(dt);
-        var vx = dt * this.speed * Math.cos(this.angle); //Math.cos(this.angle - (Math.PI / 2));
-        var vy = dt * this.speed * Math.sin(this.angle); //Math.sin(this.angle - (Math.PI / 2));
+        var vx = dt * this.speed * Math.cos(this.angle);
+        var vy = dt * this.speed * Math.sin(this.angle);
         this.x += vx;
         this.y += vy;
     }

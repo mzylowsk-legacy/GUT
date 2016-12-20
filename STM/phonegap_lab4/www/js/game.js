@@ -13,20 +13,24 @@ kamyk.monsterShooter.MonsterShooter = kamyk.Game.$extend({
         self.offScreenCanvas = new kamyk.OffScreenCanvas(self);
 
         // monsters settings
-        self.maxMonsters = 25;
+        self.maxMonsters = 5;
         self.monsterSpawnInterval = 3000;
         self.monsterPositions = [
-            [self.width/2, self.height, 0],
-            [self.width/2, 0, 2],
-            [0, self.height/2, 3],
-            [self.width, self.height/2, 1]
+            [self.width, self.height-100, 0],
+            [0, 0, 0],
+            [0, self.height -100, 0],
+            [self.width, 0, 0],
+            [self.width, self.height/2, 0],
+            [0, self.height/2, 0],
+            [self.width/2, 0, 0],
+            [self.width/2, self.height, 0]
         ];
 
         self.timeAfterLastSpawn = 0;
         self.monsters = [];
 		self.shootingAngle = 0;
         self.fireballs = [];
-        self.hero = new kamyk.Player(width / 2, height / 2, 100);
+        self.hero = new kamyk.Player(width / 2, height / 2, 500);
         self.background = new kamyk.Sprite(0, 0);
     },
     onLoaderReady: function(imageLoader) {
