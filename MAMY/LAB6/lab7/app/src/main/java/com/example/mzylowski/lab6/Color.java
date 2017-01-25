@@ -2,7 +2,7 @@ package com.example.mzylowski.lab6;
 
 public enum Color {
     WHITE(1.0f, 1.0f, 1.0f),
-    ORANGE(1.0f, 0.5f, 0.0f);
+    RED(1.0f, 0.0f, 0.0f);
 
     public float r, g, b;
 

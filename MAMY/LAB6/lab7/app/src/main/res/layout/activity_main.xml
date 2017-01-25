@@ -31,10 +31,10 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:text="Orange"
+        android:text="RED"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/orange_color_button"
+        android:id="@+id/red_color_button"
         android:layout_below="@+id/white_color_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

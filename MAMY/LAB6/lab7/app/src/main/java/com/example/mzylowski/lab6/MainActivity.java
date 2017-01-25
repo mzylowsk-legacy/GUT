@@ -1,11 +1,8 @@
 package com.example.mzylowski.lab6;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -28,11 +25,11 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
                 surfaceView.renderer.lightColor = Color.WHITE;
             }
         });
-        Button orangeButton = (Button) findViewById(R.id.orange_color_button);
+        Button orangeButton = (Button) findViewById(R.id.red_color_button);
         orangeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                surfaceView.renderer.lightColor = Color.ORANGE;
+                surfaceView.renderer.lightColor = Color.RED;
             }
         });
 
@@ -42,8 +39,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        float value = (float)progress / 10.0f - 5.0f;
-        Log.d("KSG", String.valueOf(value));
+        float value = ((float)progress / 10.0f) - 5.0f;
         surfaceView.renderer.z = value;
     }
 
